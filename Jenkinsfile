@@ -1,33 +1,33 @@
 pipeline {
-    agent { label "agentserver" }
+    agent { label "slaveserver" }
 
     stages {
-        stage('Clone') {
+        stage('Git clone for project') {
             steps {
-                echo 'Clone project'
+                echo 'Cloning the project'
                 git branch: 'main', url: 'https://github.com/Pooja-gouda/Helloworld-latest.git'
             }
         }
-        stage('Build') {
+        stage('Maven build') {
             steps {
-                echo 'Build project'
+                echo 'Build the mavem'
                 sh 'mvn -Dmaven.test.failure.ignore=true install'
             }
         }
-        stage('deploy') {
+        stage('Deploy project') {
             steps {
                 echo 'Deploy project'
-                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'jenkinsid', path: '', url: 'http://40.192.36.41:8080/')], contextPath: null, war: ' **/*.war'
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'jid', path: '', url: 'http://18.61.231.206:8080/')], contextPath: null, war: '**/*.war'
             }
         }
-        stage('deploy for test') {
+        stage('Deploy for test') {
             steps {
-                echo 'Deploy project testing'
+                echo 'Test deploy'
             }
         }
-        stage('deploy production') {
+        stage('Producation deploy') {
             steps {
-                echo 'Deploy project for production'
+                echo 'Producation deploy'
             }
         }
     }
