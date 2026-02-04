@@ -43,5 +43,18 @@ pipeline {
                 sh 'docker push poojagoudai/travel'
             }
         }
+        stage('Remove Docker conatiner') {
+            steps {
+                echo 'Remove Docker conatiner'
+                sh 'docker stop projecta_conatiner || true'
+                sh 'docker rm projecta_conatiner || true'
+            }
+        } 
+        stage('Run docker image') {
+            steps {
+                echo 'Run docker image'
+                sh 'docker run -d -p 8181:8080 poojagoudai/travel'
+            }
+        } 
     }
 }
